@@ -1,3 +1,17 @@
+**1.1.4 - 2015-10-14**
+
+* Do not require signingConfig for bootstrap and listing tasks - #100
+* Support JSON file credentials - #97
+
+**1.1.3 - 2015-09-01**
+
+* Support staged rollouts - #79, #80
+* Bugfix: Bootstrap into main source set for projects without flavors - #87
+
+**1.1.2 - 2015-07-16**
+
+* Bugfix: Corretly set contact web parameter - #82
+
 **1.1.1 - 2015-07-11**
 
 * Support for tv related images - #77

@@ -6,6 +6,8 @@ class PlayPublisherPluginExtension {
 
     File pk12File
 
+    File jsonFile
+
     boolean uploadImages = false
 
     boolean errorOnSizeLimit = true
@@ -13,8 +15,8 @@ class PlayPublisherPluginExtension {
     private String track = 'alpha'
 
     void setTrack(String track) {
-        if (!(track in ['alpha', 'beta', 'production'])) {
-            throw new IllegalArgumentException("Track has to be one of 'alpha', 'beta', or 'production'.")
+        if (!(track in ['alpha', 'beta', 'rollout', 'production'])) {
+            throw new IllegalArgumentException("Track has to be one of 'alpha', 'beta', 'rollout' or 'production'.")
         }
 
         this.track = track
@@ -23,5 +25,7 @@ class PlayPublisherPluginExtension {
     def getTrack() {
         return track
     }
+
+    Double userFraction = 0.1
 
 }

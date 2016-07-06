@@ -9,6 +9,7 @@ import static de.triplet.gradle.play.DependsOn.dependsOn
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertThat
+import static org.junit.Assert.fail
 
 class PlayPublisherPluginTest {
 
@@ -77,6 +78,33 @@ class PlayPublisherPluginTest {
     }
 
     @Test
+    public void testUserFraction() {
+        Project project = TestHelper.evaluatableProject()
+
+        project.play {
+            userFraction 0.1
+        }
+
+        project.evaluate()
+
+        assertEquals(0.1, project.extensions.findByName("play").userFraction, 0)
+    }
+
+    @Test
+    public void testJsonFile() {
+        Project project = TestHelper.evaluatableProject()
+
+        project.play {
+            jsonFile new File("key.json");
+        }
+
+        project.evaluate()
+
+        assertEquals("key.json", project.extensions.findByName("play").jsonFile.name)
+    }
+
+
+    @Test
     public void testPublishListingTask() {
         Project project = TestHelper.evaluatableProject()
 
@@ -89,6 +117,20 @@ class PlayPublisherPluginTest {
 
         assertNotNull(project.tasks.publishListingFreeRelease)
         assertNotNull(project.tasks.publishListingPaidRelease)
+    }
+
+    @Test
+    public void testNoSigningConfigGenerateTasks() {
+        Project project = TestHelper.noSigningConfigProject()
+
+        project.evaluate()
+
+        assertNotNull(project.tasks.bootstrapReleasePlayResources)
+        assertNotNull(project.tasks.publishListingRelease)
+
+        if (project.tasks.hasProperty('publishApkRelease') || project.tasks.hasProperty('publishRelease')) {
+            fail()
+        }
     }
 
 

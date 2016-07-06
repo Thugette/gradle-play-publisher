@@ -22,10 +22,12 @@ class PlayPublishApkTask extends PlayPublishTask {
         List<Integer> versionCodes = new ArrayList<Integer>()
 
         variant.outputs
-            .findAll { variantOutput -> variantOutput instanceof ApkVariantOutput }
-            .each { variantOutput -> versionCodes.add(publishApk(new FileContent(AndroidPublisherHelper.MIME_TYPE_APK, variantOutput.outputFile)).getVersionCode())}
+                .findAll { variantOutput -> variantOutput instanceof ApkVariantOutput }
+                .each { variantOutput -> versionCodes.add(publishApk(new FileContent(AndroidPublisherHelper.MIME_TYPE_APK, variantOutput.outputFile)).getVersionCode())}
 
-        Track track = new Track().setVersionCodes(versionCodes)
+        Track track = new Track().setVersionCodes(versionCodes)        if (extension.track?.equals("rollout")) {
+            track.setUserFraction(extension.userFraction)
+        }
         edits.tracks()
                 .update(variant.applicationId, editId, extension.track, track)
                 .execute()
